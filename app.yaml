@@ -1,0 +1,15 @@
+runtime: nodejs
+env: flex
+
+env_variables:
+  ORDERS_HOST: "GEOAWARENESS_REST_API_ENDPOINT"
+  API_KEY: "YOUR_API_KEY"
+  PULL_INTERVAL_MS: 2000
+
+# Keep it small and cheap
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10

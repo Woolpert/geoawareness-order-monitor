@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Order Monitor</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/mdb.min.css" />
+    <style>
+      html,
+      body {
+        margin: 10px;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      .flash {
+        background-color: #0d47a1;
+        color: white;
+      }
+    </style>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid" style="width: 100%; height: 95%;">
+      <div class="row">
+        <div class="col-md-9">
+          <h1>
+            <a href="./index.html">So Inclined Restaurants</a>
+          </h1>
+          <p>Order Monitor</p>
+        </div>
+        <div class="col-md-3">
+          <a href="https://woolpert.com" target="blank">
+            <img src="./img/svg/woolpert.svg" height="75.33" width="240.6" />
+          </a>
+        </div>
+      </div>
+      <hr />
+      <div class="row" style="width: 100%; height: 90%;">
+        <div class="col-md-5 h-100" id="nav-list">
+          <div id="store-page-header"></div>
+          <div
+            id="stores"
+            class="h-100 w-100 d-inline-block overflow-auto p-1"
+          ></div>
+        </div>
+        <div class="col-md-7 h-100" id="map-view">
+          <div id="map-container" class="z-depth-1-half h-100"></div>
+        </div>
+      </div>
+    </div>
+
+    <script id="store-page-header-template" type="x-tmpl-mustache">
+      <h3>{{ store.name }}</h3>
+    </script>
+
+    <script id="store-template" type="x-tmpl-mustache">
+      <div class="media position-relative">
+        <div class="card mb-3 w-100">
+          <h4 class="card-header text-white bg-primary w-100">{{ store.name }}</h4>
+          <div class="card-body">
+            <p class="card-text">{{ store.address }}
+            <a href="#!" onClick="onGetOrders('{{ store.name }}');" class="text-decoration-underline attr stretched-link"></a>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script id="order-empty-template" type="x-tmpl-mustache">
+      <div class="w-100">
+        <div class="card w-100">
+          <div class="card-body text-center">No Orders</div>
+        </div>
+      </div>
+    </script>
+
+    <script id="order-template" type="x-tmpl-mustache">
+      <div class="w-100">
+        <div class="card w-100">
+          <div class="card-body" id="order-{{ order.orderId }}"
+            onMouseOver="onHoverOrder('{{ order.orderId }}');"
+            onMouseOver="onHoverOrder();"
+          >
+            <div class="row">
+              <div class="col-4">{{ order.orderId }}</div>
+              <div class="col-4">{{ order.date }}</div>
+              <div class="col-4">
+                <button type="button" class="btn btn-sm btn-block" onClick="onCloseOrder('{{ order.orderId }}', '{{ order.storeName }}');">Close</button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script id="order-group-template" type="x-tmpl-mustache">
+      <div id="range-{{ range.id }}">
+        <h5 class="card text-center text-white bg-primary mb-0 mt-3 w-100"
+          style="transform: rotate(0);"
+            onMouseOver="onHoverOrderGroup('{{ range.id }}');"
+            onMouseOut="onHoverOrderGroup();"
+          >
+          <div class="card-body">
+            <a href="#!" onClick="onShowRange('{{range.id}}');" class="text-white stretched-link">{{ range.time }} min</a>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
